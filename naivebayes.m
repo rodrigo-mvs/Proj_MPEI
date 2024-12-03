@@ -1,6 +1,6 @@
 %% carregar o dataset
 data = readcell("nb_final.csv");
-data(:, 1) = []; % Remove a primeira coluna
+data(:, 1) = []; % Remove a primeira coluna unamed
 
 %% extrair as características e classes
 caracteristicas = data(1, 2:end-1);
@@ -12,19 +12,24 @@ nomes_classes = unique(classes);    % nomes das classes
 C1 = nomes_classes{1};              % nome da primeira classe
 C2 = nomes_classes{2};              % nome da segunda classe
 
+%% padronizar as características
+mu = mean(X, 1);                    % Média de cada característica
+sigma = std(X, 1);                  % Desvio padrão de cada característica
+X_standardized = (X - mu) ./ sigma; % Aplicar padronização
+
 %% separar os dados em treino e teste
 % 70% dos dados para treino e 30% para teste
 
 % permutação
-permutacao = randperm(size(X, 1));
+permutacao = randperm(size(X_standardized, 1));
 
 % definir percentagem para treino
 percentagem = 70;
-num_linhas_treino = round(percentagem * size(X, 1) / 100);
+num_linhas_treino = round(percentagem * size(X_standardized, 1) / 100);
 
 % conjuntos do treino e teste
-TREINO = X(permutacao(1:num_linhas_treino), :);
-TESTE = X(permutacao(num_linhas_treino+1:end), :);
+TREINO = X_standardized(permutacao(1:num_linhas_treino), :);
+TESTE = X_standardized(permutacao(num_linhas_treino+1:end), :);
 
 % classes correspondentes para o treino e teste
 classes_treino = classes(permutacao(1:num_linhas_treino));
@@ -36,6 +41,8 @@ prob_C2 = sum(strcmp(classes_treino, C2)) / length(classes_treino);
 
 disp(['Probabilidade de ', C1, ': ', num2str(prob_C1)]);
 disp(['Probabilidade de ', C2, ': ', num2str(prob_C2)]);
+
+
 
 %% probabilidade condicional dado C1
 linhas_C1 = strcmp(classes_treino, C1); % Linhas onde a classe é C1
