@@ -1,5 +1,6 @@
 import random
 import csv
+import time
 
 def sample_csv(input_file, output_file, n_lines):
     
@@ -81,9 +82,9 @@ def sample_filtered_balanced_csv(input_file, output_file, n_lines, selected_colu
         balanced_sample = sampled_benign + sampled_ddos
 
     with open(output_file, 'w', newline='') as outfile:
-        first_column = header[0]
-        last_column = header[-1]
-        final_columns = [first_column] + selected_columns + [last_column]
+        id = header[0]
+        label = header[-1]
+        final_columns = [id] + selected_columns + [label]
 
         final_columns = list(dict.fromkeys(final_columns))
 
@@ -96,9 +97,30 @@ def sample_filtered_balanced_csv(input_file, output_file, n_lines, selected_colu
             writer.writerow(filtered_row)
 
 
+start_time = time.time()
+
 input_file = "final_dataset.csv"
 output_file = "final.csv"
-n_lines = 10
-selected_columns = ["Flow Byts/s", "Flow Pkts/s", "Pkt Len Mean", "Fwd IAT Mean", "SYN Flag Cnt", "Active Mean"]
+n_lines = 1000
+selected_columns = ["Src IP", "Src Port", "Flow Byts/s", "Flow Pkts/s", "Flow Duration", "Active Mean", "Fwd IAT Mean", "Tot Fwd Pkts", "TotLen Fwd Pkts"]
 
 sample_filtered_balanced_csv(input_file, output_file, n_lines, selected_columns)
+
+end_time = time.time()
+
+execution_time = end_time - start_time
+print(f"Execution time: {execution_time} seconds")
+
+
+
+
+
+# Src IP            : Endereço IP de origem, indica onde o tráfego se originou
+# Src Port          : Especifica o serviço ou aplicação no remetente
+# Flow Byts/s       : Mede a taxa de transmissão de bytes no fluxo
+# Flow Pkts/s       : Mede a taxa de envio de pacotes no fluxo
+# Flow Duration     : Duração total do fluxo, do primeiro ao último pacote
+# Active Mean       : Tempo médio de atividade no fluxo
+# Fwd IAT Mean      : Tempo médio entre pacotes enviados do remetente ao destinatário
+# Tot Fwd Pkts      : Total de pacotes enviados do remetente ao destinatário
+# TotLen Fwd Pkts   : Soma do tamanho de todos os pacotes enviados do remetente
