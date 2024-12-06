@@ -12,3 +12,8 @@ num_hfs = 5;
 for a=1:length(ids)
     BF = adicionar_elemento(ids(a),BF,num_hfs);
 end
+
+
+%% 
+
+b = 
