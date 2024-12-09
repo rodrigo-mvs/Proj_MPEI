@@ -1,4 +1,4 @@
-function BF = adicionar_elemento(elemento,BF,k, random_seeds)
+function BF = adicionar_elemento(elemento,BF,k,random_seeds)
 % inputs : elemento (elemento a adicionar) , BF (array de bits) , k (número de hash functions)
 % output : BF (atualizado)
 
