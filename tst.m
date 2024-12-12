@@ -1,0 +1,1 @@
+[matriz_treino, classes_treino, ids_treino, matriz_teste, classes_teste, ids_teste] = tirar_testes('final.csv', 10);

@@ -9,7 +9,7 @@ function [ conjunto_treino, classes_treino, conjunto_teste, classes_teste, ids_t
 
     % Ler o dataset
     data = readcell(dataset_path);
-    
+
     % Extrair os ids da primeira coluna unamed
     ids = data(2:end, 1);
 
@@ -28,13 +28,14 @@ function [ conjunto_treino, classes_treino, conjunto_teste, classes_teste, ids_t
     X = (X - min_vals) ./ (max_vals - min_vals); % normalização
 
     % Separar os dados em treino e teste
+
     % permutação
     permutacao = randperm(size(X, 1));
     ids = ids(permutacao);
     X = X(permutacao, :);
     classes = classes(permutacao);
 
-    % num linhas para treino[
+    % num linhas para treino
     percentagem_treino = 100 - teste_percentagem;
     num_linhas_treino = round(percentagem_treino * size(X, 1) / 100);
 
