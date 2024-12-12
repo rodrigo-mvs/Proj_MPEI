@@ -4,7 +4,7 @@ function BF = adicionar_elemento(elemento,BF,k,random_seeds)
 
     % repetir k vezes
     for hf = 1:k
-        seed = random_seeds(k);
+        seed = random_seeds(hf);
         index = id_to_hash(elemento,seed);
 
         % garantir que o index está dentro do BF

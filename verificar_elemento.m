@@ -6,7 +6,7 @@ resp = 1;
 
     % repetir k vezes
     for hf = 1:k
-        seed = random_seeds(k);
+        seed = random_seeds(hf);
 
         index = id_to_hash(elemento,seed);
         index = mod(index,length(BF)) + 1;
