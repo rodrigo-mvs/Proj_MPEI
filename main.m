@@ -9,8 +9,28 @@
 % Contar o número de predições corretas
 num_corretas = sum(strcmp(classes_teste, predicoes'));
 
-% Calcular a precisão
-precisao = num_corretas / length(classes_teste);
+% Calcular a matriz de confusão para Naive Bayes
+true_positive = sum(strcmp(predicoes', 'ddos') & strcmp(classes_teste, 'ddos'));
+false_positive = sum(strcmp(predicoes', 'ddos') & strcmp(classes_teste, 'Benign'));
+false_negative = sum(strcmp(predicoes', 'Benign') & strcmp(classes_teste, 'ddos'));
+true_negative = sum(strcmp(predicoes', 'Benign') & strcmp(classes_teste, 'Benign'));
+
+figure;
+confusion_matrix = [true_positive, false_positive; false_negative, true_negative];
+heatmap({'Pred. ddos', 'Pred. Benign'}, {'Real ddos', 'Real Benign'}, confusion_matrix, ...
+    'Title', 'Matriz de Confusão - Naive Bayes', ...
+    'XLabel', 'Predições', ...
+    'YLabel', 'Classes Reais');
+
+% Precision e Recall
+precision = true_positive / (true_positive + false_positive);
+recall = true_positive / (true_positive + false_negative);
+
+disp('Matriz de Confusão - Naive Bayes:');
+disp(['TP: ', num2str(true_positive), ', FP: ', num2str(false_positive)]);
+disp(['FN: ', num2str(false_negative), ', TN: ', num2str(true_negative)]);
+disp(['Precision: ', num2str(precision), ', Recall: ', num2str(recall)]);
+
 
 %% Bloom Filter
 % Parâmetros do Bloom Filter
@@ -33,13 +53,21 @@ for i = 1:length(ids_teste)
     status_list(i) = status; % Armazena o status de cada verificação
 end
 
-% Exibir resultados
-for i = 1:length(ids_teste)
-    if status_list(i) == 1
-        disp(['ID ', num2str(ids_teste{i}), ' pode estar no conjunto de ddos.']);
-    else
-        disp(['ID ', num2str(ids_teste{i}), ' não está no conjunto de ddos.']);
-    end
-end
+% Calcular valores únicos para Bloom Filter
+bf_true_positive_total = sum(bf_true_positive);
+bf_false_positive_total = sum(bf_false_positive);
+bf_false_negative_total = sum(bf_false_negative);
+bf_true_negative_total = sum(bf_true_negative);
+
+% Vetor de resultados agregados para o gráfico
+bloom_results = [bf_true_positive_total, bf_false_positive_total, bf_false_negative_total, bf_true_negative_total];
+
+% Gráfico de Falsos Positivos e Negativos (Bloom Filter)
+figure;
+bar(bloom_results);
+set(gca, 'XTickLabel', {'TP', 'FP', 'FN', 'TN'});
+title('Falsos Positivos e Negativos - Bloom Filter');
+ylabel('Número de IDs');
+xlabel('Categorias');
 
 

@@ -1,4 +1,4 @@
-function [ conjunto_treino, classes_treino, conjunto_teste, classes_teste, ids_treino, ids_teste ] = pre_processamento(dataset_path, teste_percentagem)
+function [ conjunto_treino, classes_treino, conjunto_teste, classes_teste, ids_treino, ids_teste, conjunto_ddos ] = pre_processamento(dataset_path, teste_percentagem)
     % PRE PROCESSAMENTO: Preparar os dados de treino e teste.
     % inputs: - caminho do dataset
     %         - percentagem de dados para teste
