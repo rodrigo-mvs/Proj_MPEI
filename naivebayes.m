@@ -21,13 +21,13 @@ function [ predicoes, probabilidades ] = naivebayes(conjunto_treino, classes_tre
 
     %% Calcular médias e variâncias (probabilidades condicionais)
     % Para C1
-    linhas_C1 = strcmp(classes_treino, C1); % Linhas onde a classe é C1
+    linhas_C1 = strcmp(classes_treino, C1);    % Linhas onde a classe é C1
     TREINO_C1 = conjunto_treino(linhas_C1, :); % Dados do treino para C1
     media_C1 = mean(TREINO_C1, 1);             % Média das características para C1
     var_C1 = var(TREINO_C1, 1);                % Variância das características para C1
 
     % Para C2
-    linhas_C2 = strcmp(classes_treino, C2); % Linhas onde a classe é C2
+    linhas_C2 = strcmp(classes_treino, C2);    % Linhas onde a classe é C2
     TREINO_C2 = conjunto_treino(linhas_C2, :); % Dados do treino para C2
     media_C2 = mean(TREINO_C2, 1);             % Média das características para C2
     var_C2 = var(TREINO_C2, 1);                % Variância das características para C2

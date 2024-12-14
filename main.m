@@ -1,10 +1,10 @@
 %% Pre Processamento dos Dados
 
-% % linha que usa o pre_processamento
-% [ conjunto_treino, classes_treino, conjunto_teste, classes_teste, ids_treino, ids_teste ] = pre_processamento('final.csv', 10);
+% linha que usa o pre_processamento
+[ conjunto_treino, classes_treino, conjunto_teste, classes_teste, ids_treino, ids_teste ] = pre_processamento('final.csv', 25);
 
-% linha que usa o segundo método de ir buscar valores (mais simples)
-[conjunto_treino, classes_treino, ids_treino, conjunto_teste, classes_teste, ids_teste] = tirar_testes('final.csv', 100);
+% % linha que usa o segundo método de ir buscar valores (mais simples)
+% [conjunto_treino, classes_treino, ids_treino, conjunto_teste, classes_teste, ids_teste] = tirar_testes('final.csv', 5);
 
 
 %% Naive Bayes
