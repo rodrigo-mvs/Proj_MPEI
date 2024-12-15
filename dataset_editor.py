@@ -102,7 +102,8 @@ start_time = time.time()
 input_file = "final_dataset.csv"
 output_file = "final.csv"
 n_lines = 1000
-selected_columns = ["Src IP", "Src Port", "Flow Byts/s", "Flow Pkts/s", "Flow Duration", "Active Mean", "Fwd IAT Mean", "Tot Fwd Pkts", "TotLen Fwd Pkts"]
+# selected_columns = ["Src IP", "Src Port", "Flow Byts/s", "Flow Pkts/s", "Flow Duration", "Active Mean", "Fwd IAT Mean", "Tot Fwd Pkts", "TotLen Fwd Pkts"]
+selected_columns = ["Src IP", "Src Port", "Flow Byts/s", "Flow Pkts/s", "Flow Duration", "Tot Fwd Pkts", "TotLen Fwd Pkts"]
 
 sample_filtered_balanced_csv(input_file, output_file, n_lines, selected_columns)
 
@@ -120,7 +121,7 @@ print(f"Execution time: {execution_time} seconds")
 # Flow Byts/s       : Mede a taxa de transmissão de bytes no fluxo
 # Flow Pkts/s       : Mede a taxa de envio de pacotes no fluxo
 # Flow Duration     : Duração total do fluxo, do primeiro ao último pacote
-# Active Mean       : Tempo médio de atividade no fluxo
-# Fwd IAT Mean      : Tempo médio entre pacotes enviados do remetente ao destinatário
+# Active Mean       : Tempo médio de atividade no fluxo (removido)
+# Fwd IAT Mean      : Tempo médio entre pacotes enviados do remetente ao destinatário (removido)
 # Tot Fwd Pkts      : Total de pacotes enviados do remetente ao destinatário
 # TotLen Fwd Pkts   : Soma do tamanho de todos os pacotes enviados do remetente
