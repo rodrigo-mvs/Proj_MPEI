@@ -20,7 +20,7 @@ def sample_csv(input_file, output_file, n_lines):
     with open(output_file, 'w') as outfile:
         outfile.write(header)
         outfile.writelines(sampled_lines)
-
+    
 def sample_csv_balanced(input_file, output_file, n_lines):
 
     with open(input_file, 'r') as readfile:

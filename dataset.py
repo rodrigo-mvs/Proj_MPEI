@@ -26,7 +26,7 @@ def sample_filtered_balanced_csv(input_file, output_file, n_lines, selected_colu
                 continue
 
             # Ignora linhas com Flow Byts/s igual a zero
-            if flow_bytes == 0:
+            if flow_bytes == 0 or "Infinity" in columns:
                 continue
 
             label = columns[-1]
@@ -65,7 +65,7 @@ def sample_filtered_balanced_csv(input_file, output_file, n_lines, selected_colu
 start_time = time.time()
 
 input_file = "final_dataset.csv"
-output_file = "final_cleaned.csv"
+output_file = "final_cleaned_v2.csv"
 n_lines = 1000
 selected_columns = ["Src IP", "Src Port", "Flow Byts/s", "Flow Pkts/s", "Flow Duration", "Tot Fwd Pkts", "TotLen Fwd Pkts"]
 

@@ -1,11 +1,12 @@
 %% Pre Processamento dos Dados
 
-% linha que usa o pre_processamento
-[ conjunto_treino, classes_treino, conjunto_teste, classes_teste, ids_treino, ids_teste ] = pre_processamento('final.csv', 25);
+% % linha que usa o pre_processamento
+% [ conjunto_treino, classes_treino, conjunto_teste, classes_teste, ids_treino, ids_teste ] = pre_processamento('final_cleaned_v2.csv', 25);
 
 % % linha que usa o segundo método de ir buscar valores (mais simples)
-% [conjunto_treino, classes_treino, ids_treino, conjunto_teste, classes_teste, ids_teste] = tirar_testes('final.csv', 5);
+% [conjunto_treino, classes_treino, ids_treino, conjunto_teste, classes_teste, ids_teste] = tirar_testes('final_cleaned_v2.csv', 10);
 
+[header, treino, teste] = filtragem_testes('final_cleaned_v2.csv', 4);
 
 %% Naive Bayes
 
@@ -76,3 +77,11 @@ ylabel('Número de IDs');
 xlabel('Categorias');
 
 
+%%
+
+matriz_ips = get_IPs(teste);
+shingles = cell(length(matriz_ips),1);
+
+for i=1:length(matriz_ips)
+    shingles{i} = generate_shingles(matriz_ips{i,2},6);
+end
