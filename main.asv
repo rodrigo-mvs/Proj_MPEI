@@ -79,7 +79,7 @@ xlabel('Categorias');
 
 %% MinHash
 
-matriz_ips = get_IPs(matriz_teste);
+matriz_ips = get_IPs(teste);
 shingle_length = 3;
 
 matriz_ips_benign = matriz_ips(strcmpi(matriz_ips(:,3), 'Benign'), :);
@@ -88,7 +88,7 @@ matriz_ips_ddos = matriz_ips(strcmpi(matriz_ips(:,3), 'ddos'), :);
 
 
 % shingles de todos os ips de ddos da matriz teste
-shingles_ddos = [];
+shingles_ddos = {};
 
 for i=1:height(matriz_ips_ddos)
     temp_ip = char(matriz_ips_ddos{i,2});
@@ -97,28 +97,28 @@ for i=1:height(matriz_ips_ddos)
     shingles_ddos = [shingles_ddos; temp_shingles'];
 end
 
-clear temp_shingles; clear temp_ip; clear i;
+clear temp_shingles; clear temp_ip;
 
 
-% shingles de todos os ips de benignos da matriz teste
-shingles_benign = [];
+% shingles de todos os ips de ben da matriz teste
+shingles_ddos = {};
 
 for i=1:height(matriz_ips_ddos)
     temp_ip = char(matriz_ips_ddos{i,2});
     temp_shingles = generate_shingles(temp_ip,shingle_length);
 
-    shingles_benign = [shingles_benign; temp_shingles'];
+    shingles_ddos = [shingles_ddos; temp_shingles'];
 end
 
-clear temp_shingles; clear temp_ip; clear i;
+clear temp_shingles; clear temp_ip;
 
 
 
-% cell array com shingles para todos os documentos do conjunto de testes
-% do tipo n(num_testes) x 1
 
-shingles_teste = cell(length(matriz_ips),1);
 
-for i=1:length(matriz_ips)
-    shingles_teste{i} = generate_shingles(matriz_ips{i,2},6);
-end
+
+% shingles = cell(length(matriz_ips),1);
+% 
+% for i=1:length(matriz_ips)
+%     shingles{i} = generate_shingles(matriz_ips{i,2},6);
+% end
