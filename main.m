@@ -79,36 +79,42 @@ xlabel('Categorias');
 
 %% MinHash
 
-matriz_ips = get_IPs(matriz_teste);
-shingle_length = 3;
-
-matriz_ips_benign = matriz_ips(strcmpi(matriz_ips(:,3), 'Benign'), :);
-matriz_ips_ddos = matriz_ips(strcmpi(matriz_ips(:,3), 'ddos'), :);
+matriz_ips_treino = get_IPs(matriz_treino);
+matriz_ips_teste = get_IPs(matriz_teste);
+shingle_length = 4;
 
 
+matriz_ips_treino_benign = matriz_ips_treino(strcmpi(matriz_ips_treino(:,3), 'Benign'), :);
+matriz_ips_treino_ddos = matriz_ips_treino(strcmpi(matriz_ips_treino(:,3), 'ddos'), :);
 
-% shingles de todos os ips de ddos da matriz teste
+
+% shingles de todos os ips de ddos da matriz treino
 shingles_ddos = [];
 
-for i=1:height(matriz_ips_ddos)
-    temp_ip = char(matriz_ips_ddos{i,2});
+for i=1:height(matriz_ips_treino_ddos)
+    temp_ip = char(matriz_ips_treino_ddos{i,2});
     temp_shingles = generate_shingles(temp_ip,shingle_length);
+    
 
     shingles_ddos = [shingles_ddos; temp_shingles'];
 end
 
+shingles_ddos = unique(shingles_ddos);
+
 clear temp_shingles; clear temp_ip; clear i;
 
 
-% shingles de todos os ips de benignos da matriz teste
+% shingles de todos os ips de benignos da matriz treino
 shingles_benign = [];
 
-for i=1:height(matriz_ips_ddos)
-    temp_ip = char(matriz_ips_ddos{i,2});
+for i=1:height(matriz_ips_treino_benign)
+    temp_ip = char(matriz_ips_treino_benign{i,2});
     temp_shingles = generate_shingles(temp_ip,shingle_length);
 
     shingles_benign = [shingles_benign; temp_shingles'];
 end
+
+shingles_benign = unique(shingles_benign);
 
 clear temp_shingles; clear temp_ip; clear i;
 
@@ -117,8 +123,23 @@ clear temp_shingles; clear temp_ip; clear i;
 % cell array com shingles para todos os documentos do conjunto de testes
 % do tipo n(num_testes) x 1
 
-shingles_teste = cell(length(matriz_ips),1);
+shingles_teste = cell(length(matriz_ips_treino),1);
 
-for i=1:length(matriz_ips)
-    shingles_teste{i} = generate_shingles(matriz_ips{i,2},6);
+for i=1:length(matriz_ips_treino)
+    shingles_teste{i} = generate_shingles(matriz_ips_treino{i,2},shingle_length);
 end
+
+clear i;
+
+
+num_hash_funct = 1000;
+
+
+%%%%%%% FAZER ASSINATURAS PARA AS MATRIZES DE TREINO
+%%% FAZER MATRIZ DE RANDOMS
+%%% FAZER HASHs PARA CADA SHINGLE
+%%% MÍNIMO DE CADA HASHFUNCTION
+
+assinaturas_teste_ddos = zeros(1,num_hash_funct);
+
+
