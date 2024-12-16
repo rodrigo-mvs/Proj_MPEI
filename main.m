@@ -6,7 +6,15 @@
 % % linha que usa o segundo método de ir buscar valores (mais simples)
 % [conjunto_treino, classes_treino, ids_treino, conjunto_teste, classes_teste, ids_teste] = tirar_testes('final_cleaned_v2.csv', 10);
 
-[header, matriz_treino, matriz_teste] = filtragem_testes('final_cleaned_v2.csv', 4);
+[header, matriz_treino, matriz_teste] = filtragem_testes('final_cleaned_v2.csv', 200);
+
+classes_treino = matriz_treino(:, end)';
+conjunto_treino = cell2mat(matriz_treino(:, 3:end-1));
+conjunto_teste = cell2mat(matriz_teste(:, 3:end-1));
+classes_teste = matriz_teste(:, end)';
+ids_treino = matriz_treino(:, 1)
+ids_teste = matriz_teste(:, 1)
+
 
 %% Naive Bayes
 
@@ -45,6 +53,12 @@ BF_size = 3500;
 random_seeds = randi([1, 1000], 1, num_hfs);
 BF = zeros(1, BF_size, "uint8");
 
+% Inicializar contadores
+bf_true_positive = 0;
+bf_false_positive = 0;
+bf_false_negative = 0;
+bf_true_negative = 0;
+
 % Adicionar apenas os IDs de 'ddos' ao Bloom Filter
 for i = 1:length(ids_treino)
     if strcmp(classes_treino{i}, 'ddos') % Verifica se o ID é de ddos
@@ -57,16 +71,21 @@ status_list = zeros(length(ids_teste), 1); % Inicializa uma lista de status
 for i = 1:length(ids_teste)
     [~, status] = bloom_filter('check', ids_teste{i}, BF, num_hfs, random_seeds);
     status_list(i) = status; % Armazena o status de cada verificação
+    
+    % Atualizar contadores
+    if status == 1 && strcmp(classes_teste{i}, 'ddos')
+        bf_true_positive = bf_true_positive + 1;
+    elseif status == 1 && ~strcmp(classes_teste{i}, 'ddos')
+        bf_false_positive = bf_false_positive + 1;
+    elseif status == 0 && strcmp(classes_teste{i}, 'ddos')
+        bf_false_negative = bf_false_negative + 1;
+    elseif status == 0 && ~strcmp(classes_teste{i}, 'ddos')
+        bf_true_negative = bf_true_negative + 1;
+    end
 end
 
-% Calcular valores únicos para Bloom Filter
-bf_true_positive_total = sum(bf_true_positive);
-bf_false_positive_total = sum(bf_false_positive);
-bf_false_negative_total = sum(bf_false_negative);
-bf_true_negative_total = sum(bf_true_negative);
-
-% Vetor de resultados agregados para o gráfico
-bloom_results = [bf_true_positive_total, bf_false_positive_total, bf_false_negative_total, bf_true_negative_total];
+% Valores agregados para o gráfico
+bloom_results = [bf_true_positive, bf_false_positive, bf_false_negative, bf_true_negative];
 
 % Gráfico de Falsos Positivos e Negativos (Bloom Filter)
 figure;
