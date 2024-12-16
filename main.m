@@ -6,14 +6,14 @@
 % % linha que usa o segundo método de ir buscar valores (mais simples)
 % [conjunto_treino, classes_treino, ids_treino, conjunto_teste, classes_teste, ids_teste] = tirar_testes('final_cleaned_v2.csv', 10);
 
-[header, matriz_treino, matriz_teste] = filtragem_testes('final_cleaned_v2.csv', 200);
+[header, matriz_treino, matriz_teste] = filtragem_testes('final_cleaned_v2.csv', 300);
 
 classes_treino = matriz_treino(:, end)';
 conjunto_treino = cell2mat(matriz_treino(:, 3:end-1));
 conjunto_teste = cell2mat(matriz_teste(:, 3:end-1));
 classes_teste = matriz_teste(:, end)';
-ids_treino = matriz_treino(:, 1)
-ids_teste = matriz_teste(:, 1)
+ids_treino = matriz_treino(:, 1);
+ids_teste = matriz_teste(:, 1);
 
 
 %% Naive Bayes
@@ -48,9 +48,9 @@ disp(['Precision: ', num2str(precision), ', Recall: ', num2str(recall)]);
 
 %% Bloom Filter
 % Parâmetros do Bloom Filter
-num_hfs = 5;
-BF_size = 3500;
-random_seeds = randi([1, 1000], 1, num_hfs);
+num_hfs = 7;
+BF_size = 1000;
+random_seeds = randi([1, 1e6], 1, num_hfs);
 BF = zeros(1, BF_size, "uint8");
 
 % Inicializar contadores
@@ -58,6 +58,8 @@ bf_true_positive = 0;
 bf_false_positive = 0;
 bf_false_negative = 0;
 bf_true_negative = 0;
+
+ids_ddos = [];
 
 % Adicionar apenas os IDs de 'ddos' ao Bloom Filter
 for i = 1:length(ids_treino)
