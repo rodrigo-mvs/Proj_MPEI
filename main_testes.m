@@ -1,6 +1,3 @@
-%%%%%%%%
-clear
-clc
 num_testes = 3000;
 
 [header, matriz_treino, matriz_teste] = filtragem_testes('final_cleaned.csv', num_testes);
@@ -15,7 +12,26 @@ ids_teste = matriz_teste(:, 1);
 ids_total = [ids_teste ; ids_treino];
 classes_total = [classes_teste classes_treino];
 
+%% Bloom Filter
 
+num_hfs = 10;
+BF_size = 144000;
+random_seeds = randi([1, 1e6], 1, num_hfs);
+BF = zeros(1, BF_size, "uint8");
+
+
+% Adicionar apenas os IDs de 'ddos' ao Bloom Filter
+for i = 1:length(ids_treino)
+    if strcmp(classes_treino{i}, 'ddos') % Verifica se o ID é de ddos
+        BF = adicionar_elemento(ids_treino{i},BF,num_hfs,random_seeds);
+    end
+end
+
+veredito_bloomfilter = zeros(size(ids_teste));
+
+for i = 1:length(ids_teste)
+    veredito_bloomfilter(i)=verificar_elemento(cell2mat(ids_teste(i)),BF,num_hfs,random_seeds);
+end
 
 
 %% Naive Bayes
@@ -25,32 +41,32 @@ nb_response = zeros(1, num_testes); % Inicializa como um vetor de zeros
 veredito_naivebayes = strcmp(previsoes,'ddos');
 
 
-%% Naive Bayes - Gráficos
-% Contar o número de previções corretas
-num_corretas = sum(strcmp(classes_teste, previsoes'));
-
-% Calcular a matriz de confusão para Naive Bayes
-true_positive = sum(strcmp(previsoes', 'ddos') & strcmp(classes_teste, 'ddos'));
-false_positive = sum(strcmp(previsoes', 'ddos') & strcmp(classes_teste, 'Benign'));
-false_negative = sum(strcmp(previsoes', 'Benign') & strcmp(classes_teste, 'ddos'));
-true_negative = sum(strcmp(previsoes', 'Benign') & strcmp(classes_teste, 'Benign'));
-
-figure;
-confusion_matrix = [true_positive, false_positive; false_negative, true_negative];
-heatmap({'Pred. ddos', 'Pred. Benign'}, {'Real ddos', 'Real Benign'}, confusion_matrix, ...
-    'Title', 'Matriz de Confusão - Naive Bayes', ...
-    'XLabel', 'Predições', ...
-    'YLabel', 'Classes Reais');
-
-
-% Precision e Recall
-precision = true_positive / (true_positive + false_positive);
-recall = true_positive / (true_positive + false_negative);
-
-disp('Matriz de Confusão - Naive Bayes:');
-disp(['TP: ', num2str(true_positive), ', FP: ', num2str(false_positive)]);
-disp(['FN: ', num2str(false_negative), ', TN: ', num2str(true_negative)]);
-disp(['Precision: ', num2str(precision), ', Recall: ', num2str(recall)]);
+%% Naive Bayes - Gráficos - Descomentar para verificar
+% % Contar o número de previções corretas
+% num_corretas = sum(strcmp(classes_teste, previsoes'));
+% 
+% % Calcular a matriz de confusão para Naive Bayes
+% true_positive = sum(strcmp(previsoes', 'ddos') & strcmp(classes_teste, 'ddos'));
+% false_positive = sum(strcmp(previsoes', 'ddos') & strcmp(classes_teste, 'Benign'));
+% false_negative = sum(strcmp(previsoes', 'Benign') & strcmp(classes_teste, 'ddos'));
+% true_negative = sum(strcmp(previsoes', 'Benign') & strcmp(classes_teste, 'Benign'));
+% 
+% figure;
+% confusion_matrix = [true_positive, false_positive; false_negative, true_negative];
+% heatmap({'Pred. ddos', 'Pred. Benign'}, {'Real ddos', 'Real Benign'}, confusion_matrix, ...
+%     'Title', 'Matriz de Confusão - Naive Bayes', ...
+%     'XLabel', 'Predições', ...
+%     'YLabel', 'Classes Reais');
+% 
+% 
+% % Precision e Recall
+% precision = true_positive / (true_positive + false_positive);
+% recall = true_positive / (true_positive + false_negative);
+% 
+% disp('Matriz de Confusão - Naive Bayes:');
+% disp(['TP: ', num2str(true_positive), ', FP: ', num2str(false_positive)]);
+% disp(['FN: ', num2str(false_negative), ', TN: ', num2str(true_negative)]);
+% disp(['Precision: ', num2str(precision), ', Recall: ', num2str(recall)]);
 
 
 
