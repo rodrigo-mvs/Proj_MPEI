@@ -1,5 +1,6 @@
 %%%%%%%%
 clear
+clc
 num_testes = 3000;
 
 [header, matriz_treino, matriz_teste] = filtragem_testes('final_cleaned.csv', num_testes);
@@ -111,8 +112,8 @@ for i=1:length(matriz_ips_teste)
     shingles_teste{i,1} = gerar_shingles(matriz_ips_teste{i,2},shingle_length);
     shingles_teste{i,2} = gerar_assinatura(shingles_teste{i,1},random_seeds,num_primo);
     shingles_teste{i,3} = mean(sum(shingles_teste{i,2} == assinaturas_ddos, 2) / num_hashes);
-    shingles_teste{i,4} = mean(sum(shingles_teste{i,2} == minhash_benign, 2) / num_hashes);
-    shingles_teste{i,5} = (shingles_teste{i,2} > shingles_teste{i,3});
+    shingles_teste{i,4} = mean(sum(shingles_teste{i,2} == assinaturas_benign, 2) / num_hashes);
+    shingles_teste{i,5} = (shingles_teste{i,3} > shingles_teste{i,4});
 end
 
 
