@@ -35,6 +35,7 @@ function [ previsoes, probabilidades ] = naive_bayes(conjunto_treino, classes_tr
     %% Classificar os dados de teste
     previsoes = cell(size(conjunto_teste, 1), 1);
     probabilidades = zeros(size(conjunto_teste, 1), 2);
+
     for i = 1:size(conjunto_teste, 1)
         amostra = conjunto_teste(i, :);
 

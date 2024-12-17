@@ -1,24 +1,5 @@
-% Este código divide o dataset em treino e teste. No caso dos valores fornecidos, este código treina os módulos com 
-% 7.000 documentos (3.500 DDoS e 3500 benignos) e testa com 3000 documentos (1.500 DDoS e 1500 benignos)
-
-% DEPENDENDO DOS VALORES ALEATÒRIOS QUE SÂO DADOS NESTA PARTE DO CÓDIGO,
-% OCASIONALEMNTE HÁ CASOS EM QUE O CLASSIFICADOR NAIVE BAYES DÁ UMA
-% PRECISÃO PŔOXIMA DE ZERO. NESSES CASOS, VOLTAR A CORRER ESTA SECÇÃO DE
-% CÓDIGO PODE RESOLVER, AO DAR MATRIZES DE TESTE E TREINO DIFERENTES.
-
-num_testes = 3000;
-
-[header, matriz_treino, matriz_teste] = filtragem_testes('final_cleaned.csv', num_testes);
-
-classes_treino = matriz_treino(:, end)';
-conjunto_treino = cell2mat(matriz_treino(:, 3:end-1));
-conjunto_teste = cell2mat(matriz_teste(:, 3:end-1));
-classes_teste = matriz_teste(:, end)';
-ids_treino = matriz_treino(:, 1);
-ids_teste = matriz_teste(:, 1);
-
-ids_total = [ids_teste ; ids_treino];
-classes_total = [classes_teste classes_treino];
+%%
+load('vars.mat');
 
 %% Bloom Filter
 
