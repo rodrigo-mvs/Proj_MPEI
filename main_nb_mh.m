@@ -128,7 +128,7 @@ veredito_final = zeros(1, length(ids_teste));
 
 % Loop para analisar cada ID de teste
 for i = 1:length(ids_teste)
-    if bf_response(i) == 1
+    if veredito_bloomfilter(i) == 1
         % Se o Bloom Filter decidir que é 'ddos'
         veredito_final(i) = 1; % Decisão final: ddos
     else
@@ -141,8 +141,6 @@ for i = 1:length(ids_teste)
     end
 end
 
-
-
 % Contar métricas finais
 final_tp = sum(veredito_final == 1 & strcmp(classes_teste, 'ddos'));
 final_fp = sum(veredito_final == 1 & strcmp(classes_teste, 'Benign'));
@@ -150,21 +148,21 @@ final_fn = sum(veredito_final == 0 & strcmp(classes_teste, 'ddos'));
 final_tn = sum(veredito_final == 0 & strcmp(classes_teste, 'Benign'));
 
 % Matriz de confusão
-final_confusion_matrix = [final_tp, final_fp; final_fn, final_tn];
+matriz_confusao_final = [final_tp, final_fp; final_fn, final_tn];
 
 % Precision e Recall
-final_precision = final_tp / (final_tp + final_fp);
-final_recall = final_tp / (final_tp + final_fn);
+precisao_final = final_tp / (final_tp + final_fp);
+recall_final = final_tp / (final_tp + final_fn);
 
 % Exibir resultados
 disp('Matriz de Confusão - Decisão Final:');
 disp(['TP: ', num2str(final_tp), ', FP: ', num2str(final_fp)]);
 disp(['FN: ', num2str(final_fn), ', TN: ', num2str(final_tn)]);
-disp(['Precision: ', num2str(final_precision), ', Recall: ', num2str(final_recall)]);
+disp(['Precision: ', num2str(precisao_final), ', Recall: ', num2str(recall_final)]);
 
 % Visualização
 figure;
-heatmap({'Pred. ddos', 'Pred. Benign'}, {'Real ddos', 'Real Benign'}, final_confusion_matrix, ...
+heatmap({'Pred. ddos', 'Pred. Benign'}, {'Real ddos', 'Real Benign'}, matriz_confusao_final, ...
     'Title', 'Matriz de Confusão - Decisão Final', ...
     'XLabel', 'Predições', ...
     'YLabel', 'Classes Reais');
