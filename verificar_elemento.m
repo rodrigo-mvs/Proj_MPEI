@@ -8,7 +8,7 @@ resp = 1;
     for hf = 1:k
         seed = random_seeds(hf);
 
-        index = id_to_hash(elemento,seed);
+        index = hashfunction(elemento,seed);
         index = mod(index,length(BF)) + 1;
         
         if BF(index) == 0

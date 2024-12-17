@@ -64,9 +64,9 @@ def sample_filtered_balanced_csv(input_file, output_file, n_lines, selected_colu
 # Configuração inicial
 start_time = time.time()
 
-input_file = "final_dataset.csv"
-output_file = "final_cleaned_v2.csv"
-n_lines = 1000
+input_file = "final_dataset.csv"            #Source: https://www.kaggle.com/datasets/devendra416/ddos-datasets
+output_file = "final_cleaned.csv" 
+n_lines = 10000
 selected_columns = ["Src IP", "Src Port", "Flow Byts/s", "Flow Pkts/s", "Flow Duration", "Tot Fwd Pkts", "TotLen Fwd Pkts"]
 
 # Executa a amostragem e processamento
@@ -74,5 +74,5 @@ sample_filtered_balanced_csv(input_file, output_file, n_lines, selected_columns)
 
 end_time = time.time()
 execution_time = end_time - start_time
-print(f"Execution time: {execution_time:.2f} seconds")
+print(f"Tempo de Execução: {execution_time:.2f} s.")
 print(f"Arquivo processado e salvo em '{output_file}'.")
