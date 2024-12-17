@@ -21,8 +21,6 @@ classes_total = [classes_teste classes_treino];
 
 
 
-
-
 docum = matriz_treino(2,:);   % documento a analisar
 
 

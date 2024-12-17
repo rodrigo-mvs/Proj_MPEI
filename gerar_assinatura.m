@@ -3,7 +3,7 @@ function signature = gerar_assinatura(shingles, random_seeds, num_primo)
     signature = inf(1, num_hashes);
     
     for i = 1:length(shingles)
-        shingle_hash = double(shingles(i));
+        shingle_hash = double(shingles(i))
         
         for j = 1:num_hashes
             
