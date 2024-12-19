@@ -112,5 +112,10 @@ else
     end
 end
 
-veredito_final
-label = char(caso_unico(10))
+disp("veredito final: " + veredito_final)
+disp("valor real: " + char(caso_unico(10)))
+
+
+if veredito_final
+    BF = adicionar_elemento(id_teste,BF,num_hashes,random_seeds);
+end

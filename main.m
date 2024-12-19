@@ -1,6 +1,3 @@
-%%
-load('vars.mat');
-
 %% Bloom Filter
 
 num_hfs = 10;
@@ -29,7 +26,7 @@ end
 veredito_naivebayes = strcmp(previsoes,'ddos');
 
 
-%% Naive Bayes - Gráficos - Descomentar para verificar
+% % Naive Bayes - Gráficos - Descomentar para verificar
 % % Contar o número de previções corretas
 % num_corretas = sum(strcmp(classes_teste, previsoes'));
 % 
